@@ -1,0 +1,46 @@
+{% extends 'index.html' %}
+
+{% block body %}
+<div class="card">
+  <h5 class="card-header">Image upload</h5>
+  <div class="card-body">
+    <h5 class="card-title">Upload an image of an animal</h5>
+    <p class="card-text">Supported file types are .png, .jpg, .jpeg and .bpm</p>
+    <form class="needs-validation" novalidate>
+      <div class="mb-3">
+        <input type="file" id="file" accept=".png, .jpg, .jpeg, .bmp" class="form-control" aria-label="file example"
+          required onchange="return fileValidation()">
+        <div class="invalid-feedback">Invalid image</div>
+        <div class="valid-feedback">Valid image</div>
+      </div>
+      <div class="mb-3">
+        <button class="btn btn-primary" type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
+<script>
+  (function () {
+    'use strict'
+    const form = document.querySelector('.needs-validation')
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+          form.classList.add('was-validated')
+        }, false)
+      })()
+  function fileValidation() {
+    const form = document.querySelector('.needs-validation')
+    const fileInput = document.getElementById('file');
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+    let filePath = fileInput.value;
+    if (!allowedExtensions.exec(filePath)) {
+      form.classList.add('was-validated')
+      fileInput.value = '';
+      return false;
+    }
+  }
+</script>
+{% endblock %}
