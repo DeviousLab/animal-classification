@@ -5,10 +5,10 @@
   <h5 class="card-header">Image upload</h5>
   <div class="card-body">
     <h5 class="card-title">Upload an image of an animal</h5>
-    <p class="card-text">Supported file types are .png, .jpg, .jpeg and .bmp</p>
+    <p class="card-text">Supported file types are .png, .jpg and .jpeg</p>
     <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
       <div class="mb-3">
-        <input type="file" id="file" name="animal_image" accept=".png, .jpg, .jpeg, .bmp" class="form-control"
+        <input type="file" id="file" name="animal_image" accept=".png, .jpg, .jpeg" class="form-control"
           aria-label="file example" required onchange="return fileValidation()">
         <div class="invalid-feedback">Invalid image</div>
         <div class="valid-feedback">Valid image</div>
@@ -21,27 +21,6 @@
 </div>
 
 {% if file_upload %}
-<!-- <div class="container">
-  <div class="row">
-    <div class="col col-8">
-      <table>
-        <tr>
-          <th>Label</th>
-          <th>Confidence</th>
-        </tr>
-        {% for name,score in data.items() %}
-        <tr>
-          <td>{{ name }}</td>
-          <td>{{ score }}</td>
-        </tr>
-        {% endfor %}
-      </table>
-    </div>
-    <div class="col col-4">
-      <img src="/static/uploads/{{ image_uploaded }}" alt="Uploaded image" class="img-fluid">
-    </div>
-  </div>
-</div> -->
 <div class="container mt-3">
   <div class="card mx-auto" style="max-width: 800px;">
     <div class="row g-0">
@@ -91,7 +70,7 @@
   function fileValidation() {
     const form = document.querySelector('.needs-validation')
     const fileInput = document.getElementById('file');
-    const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
     let filePath = fileInput.value;
     if (!allowedExtensions.exec(filePath)) {
       form.classList.add('was-validated')

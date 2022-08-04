@@ -22,6 +22,17 @@ model_sgd = pickle.load(
 scaler_transform = pickle.load(
     open(os.path.join(MODEL_PATH, 'dsa_scaler.pickle'), 'rb'))
 
+@app.errorhandler(404)
+def error404(error):
+    return render_template('error.html', error=error, title='404')
+
+@app.errorhandler(500)
+def error500(error):
+    return render_template('error.html', error = error, title='500')
+
+@app.errorhandler(400)
+def error400(error):
+    return render_template('error.html', error=error, title='400')
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
