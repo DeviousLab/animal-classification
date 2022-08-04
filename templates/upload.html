@@ -8,8 +8,8 @@
     <p class="card-text">Supported file types are .png, .jpg, .jpeg and .bmp</p>
     <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
       <div class="mb-3">
-        <input type="file" id="file" name="animal_image" accept=".png, .jpg, .jpeg, .bmp" class="form-control" aria-label="file example"
-          required onchange="return fileValidation()">
+        <input type="file" id="file" name="animal_image" accept=".png, .jpg, .jpeg, .bmp" class="form-control"
+          aria-label="file example" required onchange="return fileValidation()">
         <div class="invalid-feedback">Invalid image</div>
         <div class="valid-feedback">Valid image</div>
       </div>
@@ -19,18 +19,75 @@
     </form>
   </div>
 </div>
+
+{% if file_upload %}
+<!-- <div class="container">
+  <div class="row">
+    <div class="col col-8">
+      <table>
+        <tr>
+          <th>Label</th>
+          <th>Confidence</th>
+        </tr>
+        {% for name,score in data.items() %}
+        <tr>
+          <td>{{ name }}</td>
+          <td>{{ score }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+    <div class="col col-4">
+      <img src="/static/uploads/{{ image_uploaded }}" alt="Uploaded image" class="img-fluid">
+    </div>
+  </div>
+</div> -->
+<div class="container mt-3">
+  <div class="card mx-auto" style="max-width: 800px;">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src="/static/uploads/{{ image_uploaded }}" class="img-fluid rounded-start" alt="...">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{ animal }}</h5>
+          <p class="card-text">The image uploaded is most likely a {{ animal }}.</p>
+          <table class="table">
+            <caption>Most similar to</caption>
+            <thead>
+              <tr>
+                <th scope="col">Label</th>
+                <th scope="col">Confidence</th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider">
+              {% for name,score in data.items() %}
+              <tr>
+                <td>{{ name }}</td>
+                <td>{{ score }}%</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
 <script>
   (function () {
     'use strict'
     const form = document.querySelector('.needs-validation')
-        form.addEventListener('submit', function (event) {
-          if (!form.checkValidity()) {
-            event.preventDefault()
-            event.stopPropagation()
-          }
-          form.classList.add('was-validated')
-        }, false)
-      })()
+    form.addEventListener('submit', function (event) {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      form.classList.add('was-validated')
+    }, false)
+  })()
   function fileValidation() {
     const form = document.querySelector('.needs-validation')
     const fileInput = document.getElementById('file');

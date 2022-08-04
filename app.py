@@ -17,8 +17,11 @@ BASE_PATH = os.getcwd()
 UPLOAD_PATH = os.path.join(BASE_PATH, 'static/uploads/')
 MODEL_PATH = os.path.join(BASE_PATH, 'static/models/')
 
-model_sgd = pickle.load(open(os.path.join(MODEL_PATH, 'dsa_image_classification_sgd.pickle'), 'rb'))
-scaler_transform = pickle.load(open(os.path.join(MODEL_PATH, 'dsa_scaler.pickle'), 'rb'))
+model_sgd = pickle.load(
+    open(os.path.join(MODEL_PATH, 'dsa_image_classification_sgd.pickle'), 'rb'))
+scaler_transform = pickle.load(
+    open(os.path.join(MODEL_PATH, 'dsa_scaler.pickle'), 'rb'))
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -33,12 +36,15 @@ def index():
             uploaded_file.save(os.path.join(
                 UPLOAD_PATH, uploaded_file.filename))
             print('File uploaded successfully')
-            res = pipeline_model(os.path.join(UPLOAD_PATH, uploaded_file.filename), scaler_transform, model_sgd)
-            print(res)
+            res = pipeline_model(os.path.join(
+                UPLOAD_PATH, uploaded_file.filename), scaler_transform, model_sgd)
+            confirmed_animal = (list(res.keys())[0]).capitalize()
+            return render_template('upload.html', file_upload=True, data=res, image_uploaded=uploaded_file.filename, animal=confirmed_animal)
         else:
-            return 'File extension is not supported'
-        return render_template('upload.html')
-    return render_template('upload.html')
+            print('File extension not supported')
+            return render_template('upload.html', file_upload=False)
+    else:
+        return render_template('upload.html', file_upload=False)
 
 
 def pipeline_model(path, scaler_transform, model_sgd):
@@ -47,7 +53,8 @@ def pipeline_model(path, scaler_transform, model_sgd):
     image_scale = 255*image_resize
     image_transform = image_scale.astype(np.uint8)
     gray = skimage.color.rgb2gray(image_transform)
-    feature_vector = skimage.feature.hog(gray, orientations=10, pixels_per_cell=(8, 8), cells_per_block=(2, 2))
+    feature_vector = skimage.feature.hog(
+        gray, orientations=10, pixels_per_cell=(8, 8), cells_per_block=(2, 2))
 
     scalex = scaler_transform.transform(feature_vector.reshape(1, -1))
     result = model_sgd.predict(scalex)
