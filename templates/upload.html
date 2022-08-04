@@ -5,10 +5,10 @@
   <h5 class="card-header">Image upload</h5>
   <div class="card-body">
     <h5 class="card-title">Upload an image of an animal</h5>
-    <p class="card-text">Supported file types are .png, .jpg, .jpeg and .bpm</p>
-    <form class="needs-validation" novalidate>
+    <p class="card-text">Supported file types are .png, .jpg, .jpeg and .bmp</p>
+    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
       <div class="mb-3">
-        <input type="file" id="file" accept=".png, .jpg, .jpeg, .bmp" class="form-control" aria-label="file example"
+        <input type="file" id="file" name="animal_image" accept=".png, .jpg, .jpeg, .bmp" class="form-control" aria-label="file example"
           required onchange="return fileValidation()">
         <div class="invalid-feedback">Invalid image</div>
         <div class="valid-feedback">Valid image</div>
